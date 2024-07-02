@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to the Blog API!");
 });
 
-app.get("/api/blogs", async (req, res) => {
+app.get("/api/Store", async (req, res) => {
   const providedKey = req.headers["serv"];
 
   if (providedKey !== serv) {
