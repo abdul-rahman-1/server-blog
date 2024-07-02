@@ -31,8 +31,8 @@ app.get("/api/blogs", async (req, res) => {
     });
     await client.connect();
 
-    const db = client.db("Blog");
-    const blogs = await db.collection("Blogs").find({}).toArray();
+    const db = client.db("Store");
+    const blogs = await db.collection("Products").find({}).toArray();
 
     res.json(blogs);
   } catch (error) {
