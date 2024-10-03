@@ -15,6 +15,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to the Blog API!");
 });
 
+// /api/Store endpoint
 app.get("/api/Store", async (req, res) => {
   const providedKey = req.headers["serv"];
 
@@ -35,6 +36,37 @@ app.get("/api/Store", async (req, res) => {
     const blogs = await db.collection("Products").find({}).toArray();
 
     res.json(blogs);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  } finally {
+    if (client) {
+      await client.close();
+    }
+  }
+});
+
+// New /api/sensor endpoint
+app.get("/api/sensor", async (req, res) => {
+  const providedKey = req.headers["serv"];
+
+  if (providedKey !== serv) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  let client;
+  try {
+    const mongoUri = process.env.MONGODB_URL;
+    client = new MongoClient(mongoUri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    await client.connect();
+
+    const db = client.db("Sensor");
+    const sensorData = await db.collection("Data").find({}).toArray();
+
+    res.json(sensorData);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
