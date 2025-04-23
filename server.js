@@ -1,13 +1,17 @@
 import express from "express";
 import { MongoClient } from "mongodb";
 import cors from "cors";
-import dotenv from "dotenv"; 
+import dotenv from "dotenv";
+
+// Ensure ESM modules by adding "type": "module" in package.json,
+// or rename file to .mjs
+
 dotenv.config({ path: './.env' });
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 const serv = process.env.SERV;
-const baseUrl = http://localhost:${port};
+const baseUrl = `http://localhost:${port}`; // Use backticks for template literal
 
 app.use(cors());
 
@@ -46,7 +50,7 @@ app.get("/api/Store", async (req, res) => {
   }
 });
 
-// New /api/sensor endpoint
+// New /api/data endpoint
 app.get("/api/data", async (req, res) => {
   const providedKey = req.headers["serv"];
 
@@ -77,7 +81,6 @@ app.get("/api/data", async (req, res) => {
   }
 });
 
-
 app.listen(port, () => {
-  console.log(Server Is Active and Connected to MongoDB And Fully Secured at ${baseUrl});
+  console.log(`Server is active and connected at ${baseUrl}`);
 });
